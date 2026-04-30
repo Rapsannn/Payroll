@@ -4,6 +4,9 @@ namespace App\Filament\Resources\Schedules\Schemas;
 
 use App\Models\User;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class ScheduleForm
@@ -12,15 +15,26 @@ class ScheduleForm
     {
         return $schema
             ->components([
-                Select::make('shift_id')
-                    ->relationship('shift', 'name')
-                    ->required(),
-                Select::make('user_id')
-                    ->options(User::query()->pluck('name', 'id'))
-                    ->searchable(),
-                Select::make('office_id')
-                    ->relationship('office', 'name')
-                    ->required(),
+                Group::make()->components([
+                    Section::make()->components([
+                        Select::make('user_id')
+                            ->label('Nama Pegawai')
+                            ->relationship('user', 'name')
+                            ->preload()
+                            ->searchable()
+                            ->required(),
+                        Select::make('shift_id')
+                            ->relationship('shift', 'name')
+                            ->required(),
+                        Select::make('office_id')
+                            ->relationship('office', 'name')
+                            ->required(),
+                        Toggle::make('is_wfa')
+                            ->label('WFA')
+                            ->onIcon('heroicon-s-check-circle')
+                            ->offIcon('heroicon-s-x-circle'),
+                    ])
+                ]),
             ]);
     }
 }
