@@ -17,6 +17,7 @@ class ScheduleForm
             ->components([
                 Group::make()->components([
                     Section::make()->components([
+
                         Select::make('user_id')
                             ->label('Nama Pegawai')
                             ->relationship('user', 'name')
@@ -33,6 +34,8 @@ class ScheduleForm
                             ->label('WFA')
                             ->onIcon('heroicon-s-check-circle')
                             ->offIcon('heroicon-s-x-circle'),
+                        Toggle::make('is_banned')
+                            ->label('Banned'),
                     ])
                 ]),
             ]);
